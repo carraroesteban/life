@@ -1,0 +1,73 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Mismo sistema que opencaptions: papel y tinta, lima solo como relleno con tinta encima. */
+@theme {
+  --font-sans: var(--font);
+  --font-display: var(--font-display);
+  --color-bg: var(--bg);
+  --color-card: var(--bg2);
+  --color-well: var(--bg3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-mute: var(--fg2);
+  --color-primary: var(--primary-bg);
+  --color-on-primary: var(--primary-fg);
+  --color-accent: var(--accent-fg);
+  --color-lime: var(--lime);
+  --color-ink: var(--ink);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+}
+
+@layer base {
+  html, body { background: var(--bg); color: var(--fg); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  body { font-size: 16px; line-height: 1.5; -webkit-tap-highlight-color: transparent; }
+  h1, h2, h3, .display { font-family: var(--font-display); font-weight: 800; letter-spacing: -.02em; line-height: 1.12; }
+  h1 { letter-spacing: -.03em; }
+  input, button, select { font: inherit; color: inherit; }
+  input::placeholder { color: color-mix(in srgb, var(--fg2) 50%, transparent); font-weight: 400; }
+  input:focus, select:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 18%, transparent); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  ::selection { background: var(--hl); color: var(--hl-ink); }
+  select { -webkit-appearance: none; appearance: none; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 12px center; background-size: 11px 8px; padding-right: 34px; }
+}
+
+.card { background: var(--bg2); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-sm); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--bg2); font-size: 14px; white-space: nowrap; transition: background var(--dur) var(--ease); }
+.pill[aria-pressed='true'] { background: var(--primary-bg); border-color: var(--primary-bg); color: var(--primary-fg); font-weight: 700; }
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 2px 9px; border-radius: 999px; background: var(--bg3); line-height: 1.5; white-space: nowrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: var(--bg2); border: 1px solid var(--line-strong); border-radius: 10px; padding: 8px 14px; box-shadow: var(--shadow-sm); cursor: pointer; transition: background var(--dur) var(--ease), transform var(--dur) var(--ease); }
+.btn:active { transform: translateY(1px); box-shadow: none; }
+.btn.primary { background: var(--primary-bg); border-color: var(--primary-bg); color: var(--primary-fg); font-weight: 700; }
+.btn:disabled { opacity: .5; cursor: default; transform: none; }
+.field { background: var(--bg2); border: 1px solid var(--line-strong); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+.seg { display: inline-flex; background: var(--bg3); border-radius: 12px; padding: 3px; gap: 3px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 9px; font-size: 14px; }
+.seg button[aria-pressed='true'] { background: var(--bg2); box-shadow: var(--shadow-sm); font-weight: 700; }
+
+/* Tier al estilo de las tier lists: S y A en lima (relleno con tinta), el resto neutro. */
+.tier { display: inline-grid; place-items: center; min-width: 28px; height: 22px; padding: 0 6px; border-radius: 6px; font-family: var(--font-display); font-weight: 800; font-size: 13px; background: var(--bg3); color: var(--fg); }
+.tier.top { background: var(--lime); color: var(--ink); }
+
+/* Resaltador de opencaptions para la palabra "ahora". */
+.live-word { position: relative; z-index: 0; white-space: nowrap; }
+.live-word::before { content: ''; position: absolute; z-index: -1; left: -.12em; right: -.12em; top: .06em; bottom: .02em; border-radius: .18em; background: var(--hl); animation: oc-sweep var(--sweep) var(--ease) both; }
+.live-word { color: var(--hl-ink); }
+@keyframes oc-sweep { from { clip-path: inset(0 100% 0 0 round .18em); } }
+
+dialog.sheet { margin: auto auto 0; width: 100%; max-width: 640px; max-height: 88dvh; border: 1px solid var(--line); border-bottom: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 10px 20px calc(20px + env(safe-area-inset-bottom)); overflow: auto; background: var(--bg2); color: var(--fg); box-shadow: var(--shadow-lg); }
+dialog.sheet::before { content: ''; display: block; width: 40px; height: 4px; border-radius: 4px; background: var(--line-strong); margin: 0 auto 12px; }
+dialog.sheet[open] { animation: oc-sheet .28s var(--ease); }
+dialog.sheet::backdrop { background: var(--scrim); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+@keyframes oc-sheet { from { transform: translateY(24px); opacity: .4; } }
+
+.pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.field:focus-within { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 18%, transparent); }

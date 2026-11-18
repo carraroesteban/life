@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-demo/
+data/
+*.db
+*.db-shm
+*.db-wal
+.env
+src/art/ex/*.webp
+src/art/scenes/*.webp
+.DS_Store
+*.log

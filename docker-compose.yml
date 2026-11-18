@@ -1,0 +1,26 @@
+services:
+  life:
+    build: .
+    container_name: life
+    restart: unless-stopped
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      ADMIN_NAME: ${ADMIN_NAME}
+      PUSH_CONTACT: ${PUSH_CONTACT:-mailto:admin@localhost}
+    volumes:
+      - life-data:/data
+    # Sin puertos publicados: solo se entra por el túnel de Cloudflare.
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: life-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    depends_on:
+      - life
+
+volumes:
+  life-data:
