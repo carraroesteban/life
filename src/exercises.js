@@ -448,7 +448,7 @@ export const EX = {
   jalonAncho: {
     name: 'Jalón al pecho agarre ancho', muscle: 'Dorsales', tier: 'S',
     steps: [
-      'Ajustá el rodillo para que los muslos queden trabados. Agarre un poco más ancho que los hombros.',
+      'Ajustá el rodillo para que los muslos queden trabados. Agarrá la barra un poco más ancho que los hombros.',
       'Pecho arriba, leve inclinación hacia atrás y hombros lejos de las orejas.',
       'Tirá la barra hacia la parte alta del pecho llevando los codos abajo y atrás.',
       'Subí en 3 segundos hasta estirar del todo los brazos.',
